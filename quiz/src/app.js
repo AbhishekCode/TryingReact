@@ -33,7 +33,12 @@ var Quiz = React.createClass({
   onAnswer: function(answer) {
     this.setState({explanation: this.props.explanation});
   },
+  renderImage: function() {
+      return (
+        <img src="http://www.glamsham.com/movies/news/13/jul/3-idiots-wallpapers.jpg"/>
+      );
 
+  },
   renderChoices: function() {
     return this.props.choices.map(function(choice) {
       return (
@@ -46,6 +51,7 @@ var Quiz = React.createClass({
     return (
       <div>
       <h2>{this.props.question}</h2>
+      {this.renderImage()}
       {this.renderChoices()}
       <p className="hidden">{this.state.explanation}</p>
       </div>
@@ -70,19 +76,19 @@ var quiz = {
   question: "Post a question?",
   choices: [
     {
-      answer: "answer1",
+      answer: "3 idiots",
       correct: true
     },
     {
-      answer: "answer2",
+      answer: "Tare Zameen Par",
       correct: false
     },
     {
-      answer: "answer3",
+      answer: "PK",
       correct: false
     },
     {
-      answer: "answer4",
+      answer: "Dil Chahta hai",
       correct: false
     }
   ],
