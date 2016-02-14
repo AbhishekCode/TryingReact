@@ -60,6 +60,7 @@ var Quiz = React.createClass({
       {this.renderImage()}
       {this.renderChoices()}
       <p className="hidden">{this.state.explanation}</p>
+      <a href={window.location.href}>next</a>
       </div>
     );
   }
