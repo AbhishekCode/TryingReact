@@ -35,7 +35,7 @@ var Quiz = React.createClass({
   },
   renderImage: function() {
       return (
-        <img src="http://www.glamsham.com/movies/news/13/jul/3-idiots-wallpapers.jpg"/>
+        <img src={this.props.imageURL}/>
       );
 
   },
@@ -65,15 +65,16 @@ var App = React.createClass({
     
     return (
       <div>
-      <h1>Which movie is this?</h1>
-      <Quiz question={this.props.quiz.question} choices={shuffledChoices} explanation={this.props.quiz.explanation} />
+      <h1>Screenshot quiz</h1>
+      <Quiz question={this.props.quiz.question} imageURL={this.props.quiz.imageURL} choices={shuffledChoices} explanation={this.props.quiz.explanation} />
       </div>
     );
   }
 });
 
 var quiz = {
-  question: "Post a question?",
+  question: "which is movie is this?",
+  imageURL : "http://www.glamsham.com/movies/news/13/jul/3-idiots-wallpapers.jpg",
   choices: [
     {
       answer: "3 idiots",
