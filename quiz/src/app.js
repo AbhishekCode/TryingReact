@@ -8,8 +8,14 @@ var Choice = React.createClass({
   onClick: function(ev) {
     if (this.props.correct) {
       this.setState({className: 'correct'});
+        var score = parseInt( localStorage.getItem('score')); 
+        score +=1;
+         localStorage.setItem('score' , score); 
     } else {
       this.setState({className: 'wrong'});
+             var score = parseInt( localStorage.getItem('score')); 
+        score -=1;
+         localStorage.setItem('score' , score); 
     }
     this.props.onAnswer(this.props.answer);
   },
@@ -60,19 +66,40 @@ var Quiz = React.createClass({
 });
 
 var App = React.createClass({
-  render: function() {
-    var shuffledChoices = _.shuffle(this.props.quiz.choices);
+    getQuestion: function() {
+        var num = Math.random();
+        console.log(num);
+         if( localStorage.getItem('score') == null){
+            localStorage.setItem('score' , 0); 
+         }
+         if(num < 0.5) {
+            return (
+                this.props.quizList.quiz
+              );
+         }else {
+               return (
+                this.props.quizList.quizOne
+              );
+            
+        }
+
+    },
+    render: function() {
+    var currQuiz = this.getQuestion();
+    var shuffledChoices = _.shuffle(currQuiz.choices);
     
     return (
       <div>
       <h1>Screenshot quiz</h1>
-      <Quiz question={this.props.quiz.question} imageURL={this.props.quiz.imageURL} choices={shuffledChoices} explanation={this.props.quiz.explanation} />
+      <h4> score ={localStorage.getItem('score')}</h4>
+      <Quiz question={currQuiz.question} imageURL={currQuiz.imageURL} choices={shuffledChoices} explanation={currQuiz.explanation} />
       </div>
     );
   }
 });
 
-var quiz = {
+var quizList = {
+  quiz : {
   question: "which is movie is this?",
   imageURL : "http://www.glamsham.com/movies/news/13/jul/3-idiots-wallpapers.jpg",
   choices: [
@@ -93,10 +120,34 @@ var quiz = {
       correct: false
     }
   ],
-  explanation: "who cares for explanation。"
+  explanation: "who cares for explanation。 ,  reload page"
+},
+  quizOne : {
+  question: "which is movie is this?",
+  imageURL : "https://i.ytimg.com/vi/czt_Eroo_bs/hqdefault.jpg",
+  choices: [
+    {
+      answer: "Gunda",
+      correct: true
+    },
+    {
+      answer: "Loha",
+      correct: false
+    },
+    {
+      answer: "Rowdy Rathore",
+      correct: false
+    },
+    {
+      answer: "Don",
+      correct: false
+    }
+  ],
+  explanation: "Gunda Gunda Gunda the best movie ever ever ever!! reload page "
+}
 };
 
 React.render(
-  <App quiz={quiz} />,
+  <App quizList= {quizList} />,
   document.getElementById('example')
 );
