@@ -4,6 +4,8 @@ li {
     padding: 5px;
     border: 1px solid #ccc;
     cursor: pointer;
+    width:  auto;
+    height: auto;
 }
 
 li.correct {
@@ -15,3 +17,17 @@ li.wrong {
     color: white;
     background-color: red;
 }
+
+
+.clickDiv{
+    height: 70px;
+    width: 200px;
+    background: #000;
+    font-size: 48px;
+    font-style: normal;
+    color: #FFF;
+    text-align: center;
+    margin-top: 20px;
+    margin-left: 5px;
+}
+

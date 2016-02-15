@@ -1,3 +1,7 @@
+var currPage = 0;
+var right = 0;
+var wrong = 0;
+
 var Choice = React.createClass({
   getInitialState: function() {
     return {
@@ -7,17 +11,21 @@ var Choice = React.createClass({
   
   onClick: function(ev) {
     if (this.props.correct) {
-      this.setState({className: 'correct'});
-        var score = parseInt( localStorage.getItem('score')); 
-        score +=1;
-        localStorage.setItem('score' , score); 
+        right +=1;
+        this.setState({className: 'correct'});
+        var hscore = parseInt( localStorage.getItem('score')); 
+        if(right > hscore)
+            localStorage.setItem('score' , right);        
     } else {
+        wrong +=1;
         this.setState({className: 'wrong'});
-        var score = parseInt( localStorage.getItem('score')); 
-        score -=1;
-        localStorage.setItem('score' , score); 
     }
     this.props.onAnswer(this.props.answer);
+    currPage +=1;
+    React.render(
+          <App quizList= {quizList} />,
+          document.getElementById('example')
+    );
   },
   
   render: function() {
@@ -41,7 +49,7 @@ var Quiz = React.createClass({
   },
   renderImage: function() {
       return (
-        <img src={this.props.imageURL}/>
+        <img src={this.props.imageURL} className="ScreenShot"/>
       );
 
   },
@@ -59,12 +67,26 @@ var Quiz = React.createClass({
       <h2>{this.props.question}</h2>
       {this.renderImage()}
       {this.renderChoices()}
-      <p className="hidden">{this.state.explanation}</p>
-      <a href={window.location.href}>next</a>
+ 
       </div>
     );
   }
 });
+
+var Counter = React.createClass({
+    getInitialState: function () {
+      return { clickCount: 0 };
+    },
+    handleClick: function () {
+        React.render(
+          <App quizList= {quizList} />,
+          document.getElementById('example')
+        );
+    },
+    render: function () {
+      return (<div onClick={this.handleClick} className="clickDiv"><p>Next</p></div>);
+    }
+  });
 
 var App = React.createClass({
     getQuestion: function() {
@@ -75,35 +97,49 @@ var App = React.createClass({
          }
          num = parseInt(localStorage.getItem('score'));
          var qlist = [this.props.quizList.quiz , this.props.quizList.quizOne,this.props.quizList.quizTwo ,
-                     this.props.quizList.quizThree,this.props.quizList.quizFour ];
-         if(num < qlist.length) {
+                     this.props.quizList.quizThree,this.props.quizList.quizFour,this.props.quizList.quizFive
+                     ,this.props.quizList.quizSix,this.props.quizList.quizSeven,,this.props.quizList.quiz8
+                     ,this.props.quizList.quiz9];
+        console.log("currpage "+ currPage);
+        if(currPage < qlist.length) {
             return (
-                qlist[num]
+                qlist[currPage]
               );
          }else {
                return (
-                qlist[qlist.length-1]
+                 false
               );       
         }
 
     },
     render: function() {
         var currQuiz = this.getQuestion();
-        var shuffledChoices = _.shuffle(currQuiz.choices);
-
-        return (
-          <div>
-          <h1>Screenshot quiz</h1>
-          <h4> score ={localStorage.getItem('score')}</h4>
-          <Quiz question={currQuiz.question} imageURL={currQuiz.imageURL} choices={shuffledChoices} explanation={currQuiz.explanation} />
-          </div>
-        );
+        if(currQuiz == false) {
+            var percent = parseInt((right/(currPage))*100);
+            return (
+              <div>
+              <h1>Screenshot quiz</h1>
+              <h4> Correct Answers ={right} && Incorrect Answers = {wrong}</h4>
+              <h2> Game Over! </h2>
+              <h2> You got {percent} % questions right </h2>
+              </div>
+            );
+        }else {
+            var shuffledChoices = _.shuffle(currQuiz.choices);
+            return (
+              <div>
+              <h1>Screenshot quiz</h1>
+              <h4> Correct Answers ={right} && Incorrect Answers = {wrong}</h4>
+              <Quiz question={currQuiz.question} imageURL={currQuiz.imageURL} choices={shuffledChoices} explanation={currQuiz.explanation} />
+              </div>
+            );
+        }
   }
 });
 
 var quizList = {
       quiz : {
-          question: "which is movie is this?",
+          question: "Which movie is this?",
           imageURL : "http://www.glamsham.com/movies/news/13/jul/3-idiots-wallpapers.jpg",
           choices: [
             {
@@ -126,7 +162,7 @@ var quizList = {
           explanation: "who cares for explanation。 ,  reload page"
     },
       quizOne : {
-          question: "which is movie is this?",
+          question: "Which movie is this?",
           imageURL : "https://i.ytimg.com/vi/czt_Eroo_bs/hqdefault.jpg",
           choices: [
             {
@@ -142,14 +178,14 @@ var quizList = {
               correct: false
             },
             {
-              answer: "Don",
+              answer: "Sooryavansham",
               correct: false
             }
           ],
           explanation: "Gunda Gunda Gunda the best movie ever ever ever!! reload page "
     },
      quizTwo : {
-          question: "which is movie is this?",
+          question: "Which movie is this?",
           imageURL : "http://www.bharatstudent.com/ng7uvideo/bs/gallery/normal/movies/bw/2007/aug/ramgopalvarmakiaag/ramgopalvarmakiaag_030.jpg",
           choices: [
             {
@@ -172,7 +208,7 @@ var quizList = {
           explanation: "Aag the classic movie!! reload page "
     },
      quizThree : {
-          question: "which is movie is this?",
+          question: "Which movie is this?",
           imageURL : "http://static.koimoi.com/wp-content/new-galleries/2014/06/humshakals-review-movie-stills.jpg",
           choices: [
             {
@@ -180,11 +216,11 @@ var quizList = {
               correct: true
             },
             {
-              answer: "houseful",
+              answer: "Houseful",
               correct: false
             },
             {
-              answer: "houseful2",
+              answer: "Houseful Two",
               correct: false
             },
             {
@@ -195,7 +231,7 @@ var quizList = {
           explanation: "Sajid khan rocks! reload page "
     },
      quizFour : {
-          question: "which is movie is this?",
+          question: "Which movie is this?",
           imageURL : "http://cdn3.thr.com/sites/default/files/imagecache/landscape_928x523/2015/07/bombay-velvet.jpg",
           choices: [
             {
@@ -211,12 +247,127 @@ var quizList = {
               correct: false
             },
             {
-              answer: "roy",
+              answer: "Roy",
               correct: false
             }
           ],
           explanation: "ab aur nahi bus! "
-    }
+    },
+    quizFive : {
+          question: "Which movie is this?",
+          imageURL : "http://data1.ibtimes.co.in/en/full/542164/happy-new-year-20th-day-collection-box-office-srk-set-break-aamirs-3-idiot-record.jpg",
+          choices: [
+            {
+              answer: "Happy New Year",
+              correct: true
+            },
+            {
+              answer: "Chennai Express",
+              correct: false
+            },
+            {
+              answer: "Om Shanti Om",
+              correct: false
+            },
+            {
+              answer: "None",
+              correct: false
+            }
+          ],
+          explanation: "ab aur nahi bus! "
+    },
+      quizSix : {
+          question: "Which movie is this?",
+          imageURL : "https://ranranbolly.files.wordpress.com/2009/04/vlcsnap-50923.png?w=455&h=341",
+          choices: [
+            {
+              answer: "Sooryavansham",
+              correct: true
+            },
+            {
+              answer: "Gunda",
+              correct: false
+            },
+            {
+              answer: "Arjun Pandit",
+              correct: false
+            },
+            {
+              answer: "Loha",
+              correct: false
+            }
+          ],
+          explanation: "ab aur nahi bus! "
+    },
+     quizSeven : {
+          question: "Which movie is this?",
+          imageURL : "http://i.dailymail.co.uk/i/pix/2015/05/12/21/2898FE6600000578-3078816-image-a-72_1431463824154.jpg",
+          choices: [
+            {
+              answer: "Bajrangi Bhaijaan",
+              correct: true
+            },
+            {
+              answer: "Kyon ki",
+              correct: false
+            },
+            {
+              answer: "Bodygaurd",
+              correct: false
+            },
+            {
+              answer: "Mr and Mrs Khanna",
+              correct: false
+            }
+          ],
+          explanation: "ab aur nahi bus! "
+    },
+    quiz8 : {
+          question: "Which movie is this?",
+          imageURL : "http://static.koimoi.com/wp-content/new-galleries/2015/08/drishyam-box-office-9.jpg",
+          choices: [
+            {
+              answer: "Drishyam",
+              correct: true
+            },
+            {
+              answer: "Singham",
+              correct: false
+            },
+            {
+              answer: "Singham Two",
+              correct: false
+            },
+            {
+              answer: "Atithi Tum Kab Jaoge?",
+              correct: false
+            }
+          ],
+          explanation: "ab aur nahi bus! "
+    },
+      quiz9 : {
+          question: "Which movie is this?",
+          imageURL : "http://www.missmalini.com/wp-content/uploads/2015/11/New-Image.jpg",
+          choices: [
+            {
+              answer: "Kal Ho Na Ho",
+              correct: true
+            },
+            {
+              answer: "Kabhi Khushi Kabhi Gham",
+              correct: false
+            },
+            {
+              answer: "Kuch Kuch Hota Hai",
+              correct: false
+            },
+            {
+              answer: "Main Hoon Na",
+              correct: false
+            }
+          ],
+          explanation: "ab aur nahi bus! "
+    },
 };
 
 React.render(
