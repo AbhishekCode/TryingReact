@@ -23,7 +23,7 @@ var Choice = React.createClass({
     this.props.onAnswer(this.props.answer);
     currPage +=1;
     React.render(
-          <App quizList= {quizList} />,
+          <App quizList= {questions} />,
           document.getElementById('example')
     );
   },
@@ -144,8 +144,6 @@ var App = React.createClass({
         }
   }
 });
-
-
 
 var questions = [ {
           question: "Which movie is this?",
