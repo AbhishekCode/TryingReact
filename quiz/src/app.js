@@ -49,7 +49,7 @@ var Quiz = React.createClass({
   },
   renderImage: function() {
       return (
-        <img src={this.props.imageURL} className="ScreenShot"/>
+        <div className = "ScreenshotDiv"> <img src={this.props.imageURL} className="ScreenShot"/></div>
       );
 
   },
@@ -91,16 +91,12 @@ var Counter = React.createClass({
 var App = React.createClass({
     getQuestion: function() {
         var num = Math.random();
-        console.log(num);
          if( localStorage.getItem('score') == null){
             localStorage.setItem('score' , 0); 
          }
          num = parseInt(localStorage.getItem('score'));
-         var qlist = [this.props.quizList.quiz , this.props.quizList.quizOne,this.props.quizList.quizTwo ,
-                     this.props.quizList.quizThree,this.props.quizList.quizFour,this.props.quizList.quizFive
-                     ,this.props.quizList.quizSix,this.props.quizList.quizSeven,,this.props.quizList.quiz8
-                     ,this.props.quizList.quiz9];
-        console.log("currpage "+ currPage);
+        var qlist = this.props.quizList;
+        console.log("currpage "+ currPage + " ques " +this.props.quizList);
         if(currPage < qlist.length) {
             return (
                 qlist[currPage]
@@ -137,8 +133,9 @@ var App = React.createClass({
   }
 });
 
-var quizList = {
-      quiz : {
+
+
+var questions = [ {
           question: "Which movie is this?",
           imageURL : "http://www.glamsham.com/movies/news/13/jul/3-idiots-wallpapers.jpg",
           choices: [
@@ -161,7 +158,7 @@ var quizList = {
           ],
           explanation: "who cares for explanation。 ,  reload page"
     },
-      quizOne : {
+    {
           question: "Which movie is this?",
           imageURL : "https://i.ytimg.com/vi/czt_Eroo_bs/hqdefault.jpg",
           choices: [
@@ -184,7 +181,7 @@ var quizList = {
           ],
           explanation: "Gunda Gunda Gunda the best movie ever ever ever!! reload page "
     },
-     quizTwo : {
+    {
           question: "Which movie is this?",
           imageURL : "http://www.bharatstudent.com/ng7uvideo/bs/gallery/normal/movies/bw/2007/aug/ramgopalvarmakiaag/ramgopalvarmakiaag_030.jpg",
           choices: [
@@ -207,7 +204,7 @@ var quizList = {
           ],
           explanation: "Aag the classic movie!! reload page "
     },
-     quizThree : {
+    {
           question: "Which movie is this?",
           imageURL : "http://static.koimoi.com/wp-content/new-galleries/2014/06/humshakals-review-movie-stills.jpg",
           choices: [
@@ -230,7 +227,7 @@ var quizList = {
           ],
           explanation: "Sajid khan rocks! reload page "
     },
-     quizFour : {
+    {
           question: "Which movie is this?",
           imageURL : "http://cdn3.thr.com/sites/default/files/imagecache/landscape_928x523/2015/07/bombay-velvet.jpg",
           choices: [
@@ -253,7 +250,7 @@ var quizList = {
           ],
           explanation: "ab aur nahi bus! "
     },
-    quizFive : {
+    {
           question: "Which movie is this?",
           imageURL : "http://data1.ibtimes.co.in/en/full/542164/happy-new-year-20th-day-collection-box-office-srk-set-break-aamirs-3-idiot-record.jpg",
           choices: [
@@ -276,7 +273,7 @@ var quizList = {
           ],
           explanation: "ab aur nahi bus! "
     },
-      quizSix : {
+    {
           question: "Which movie is this?",
           imageURL : "https://ranranbolly.files.wordpress.com/2009/04/vlcsnap-50923.png?w=455&h=341",
           choices: [
@@ -299,7 +296,7 @@ var quizList = {
           ],
           explanation: "ab aur nahi bus! "
     },
-     quizSeven : {
+     {
           question: "Which movie is this?",
           imageURL : "http://i.dailymail.co.uk/i/pix/2015/05/12/21/2898FE6600000578-3078816-image-a-72_1431463824154.jpg",
           choices: [
@@ -322,7 +319,7 @@ var quizList = {
           ],
           explanation: "ab aur nahi bus! "
     },
-    quiz8 : {
+    {
           question: "Which movie is this?",
           imageURL : "http://static.koimoi.com/wp-content/new-galleries/2015/08/drishyam-box-office-9.jpg",
           choices: [
@@ -345,7 +342,7 @@ var quizList = {
           ],
           explanation: "ab aur nahi bus! "
     },
-      quiz9 : {
+     {
           question: "Which movie is this?",
           imageURL : "http://www.missmalini.com/wp-content/uploads/2015/11/New-Image.jpg",
           choices: [
@@ -367,10 +364,9 @@ var quizList = {
             }
           ],
           explanation: "ab aur nahi bus! "
-    },
-};
-
+    }, 
+];
 React.render(
-  <App quizList= {quizList} />,
+  <App quizList= {questions} />,
   document.getElementById('example')
 );
