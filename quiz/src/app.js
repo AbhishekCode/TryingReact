@@ -116,10 +116,21 @@ var App = React.createClass({
         var currQuiz = this.getQuestion();
         if(currQuiz == false) {
             var percent = parseInt((right/(currPage))*100);
+            var resultText ="";
+            if(percent > 85) {
+                resultText = "Well Done! You are our SharmaJi ka son!";
+            }else if (percent > 70) {
+               resultText = "Good! , But look Sharmaji's son got 95%"; 
+            }else if (percent > 50) {
+               resultText = "meh!"; 
+            }else {
+                resultText = "Muh dikhane ke kabil nahi tu! "; 
+            }
             return (
               <div>
               <h1 className = "texts">Screenshot quiz</h1>
               <h4 className = "texts"> Correct Answers ={right} && Incorrect Answers = {wrong}</h4>
+              <h4 className = "texts">{resultText}</h4>
               <h2 className = "texts"> Game Over! </h2>
               <h2 className = "texts"> You got {percent} % questions right </h2>
               </div>
