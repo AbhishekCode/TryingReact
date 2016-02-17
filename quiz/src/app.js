@@ -30,8 +30,8 @@ var Choice = React.createClass({
   
   render: function() {
     return (
-      <li onClick={this.onClick} className={this.state.className}>
-      {this.props.answer}
+      <li onClick={this.onClick} className={this.state.className} className="choiceComponent">
+         <p className = "choiceComponentText"> {this.props.answer} </p>
       </li>
     );
   }
@@ -64,7 +64,7 @@ var Quiz = React.createClass({
   render: function() {
     return (
       <div>
-      <h2>{this.props.question}</h2>
+      <h2 className = "texts">{this.props.question}</h2>
       {this.renderImage()}
       {this.renderChoices()}
  
@@ -112,20 +112,32 @@ var App = React.createClass({
         var currQuiz = this.getQuestion();
         if(currQuiz == false) {
             var percent = parseInt((right/(currPage))*100);
+            var resultText ="";
+            if(percent > 85) {
+                resultText = "Well Done! You are our SharmaJi ka son!";
+            }else if (percent > 70) {
+               resultText = "Good! , But look Sharmaji's son got 95%"; 
+            }else if (percent > 50) {
+               resultText = "meh!"; 
+            }else {
+                resultText = "Muh dikhane ke kabil nahi tu! "; 
+            }
             return (
               <div>
-              <h1>Screenshot quiz</h1>
-              <h4> Correct Answers ={right} && Incorrect Answers = {wrong}</h4>
-              <h2> Game Over! </h2>
-              <h2> You got {percent} % questions right </h2>
+              <h1 className = "texts">Screenshot quiz</h1>
+              <h4 className = "texts"> Correct Answers ={right} && Incorrect Answers = {wrong}</h4>
+              <h4 className = "texts">{resultText}</h4>
+              <h2 className = "texts"> Game Over! </h2>
+              <h2 className = "texts"> You got {percent} % questions right </h2>
               </div>
             );
         }else {
             var shuffledChoices = _.shuffle(currQuiz.choices);
             return (
               <div>
-              <h1>Screenshot quiz</h1>
-              <h4> Correct Answers ={right} && Incorrect Answers = {wrong}</h4>
+              <h1 className = "texts">Screenshot quiz</h1>
+              <h4 className = "texts"> Correct Answers ={right}</h4>
+              <h4 className = "texts"> Incorrect Answers = {wrong}</h4>
               <Quiz question={currQuiz.question} imageURL={currQuiz.imageURL} choices={shuffledChoices} explanation={currQuiz.explanation} />
               </div>
             );

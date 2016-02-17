@@ -1,3 +1,6 @@
+body {
+  background-color: #BDBDBD;
+}
 li {
     list-style: none;
     margin: 3px;
@@ -30,15 +33,28 @@ li.wrong {
     margin-top: 20px;
     margin-left: 5px;
 }
-.ScreenShot {
-    height:  100%;
+.choiceComponent{
+    height: 70px;
+    width: 600px;
+    margin-top: 20px;
+    background-color: aqua;
+}
+.choiceComponentText {
+    text-align: center;
+    margin-top: 5px; 
+    margin-bottom: 5px;
+    font-size: 45px;
+}
+.ScreenShot{
+    margin-top: 5px; 
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.texts {
+    text-align: center;
+    margin-top: 5px; 
+    margin-bottom: 5px;
+    font-size: 45px;
 }
 
-.ScreenshotDiv {
-    width:  600px; 
-    height:  300px;
-    align-content:  center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-image: url('../images.png')  no-repeat center;
-}
