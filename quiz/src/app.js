@@ -108,7 +108,16 @@ var App = React.createClass({
         }
 
     },
+    preloadImages : function() {
+        var image = [];
+        for (var i = 0; i < this.props.quizList.length; i++) {
+            var img = new Image();
+            img.src = this.props.quizList[i].imageURL;
+            image.push(img);
+        }
+    },
     render: function() {
+        this.preloadImages();
         var currQuiz = this.getQuestion();
         if(currQuiz == false) {
             var percent = parseInt((right/(currPage))*100);
@@ -380,3 +389,5 @@ React.render(
   <App quizList= {questions} />,
   document.getElementById('example')
 );
+
+
